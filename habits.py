@@ -1,17 +1,28 @@
-habits = []
+import sqlite3
+
+conn = sqlite3.connect("lifeos.db")
+cursor = conn.cursor()
 
 def add_habit():
     user_input = input("Enter habit name: ")
-    habits.append(user_input)
-    print("✅ Habit added! Your habits:", habits)
+    cursor.execute("INSERT INTO habits (name) VALUES (?)", (user_input,))
+    conn.commit()
+    print("✅ Habit saved to database!")
 
 def show_habits():
-    if len(habits) == 0:
-        print("no habits yet")
-    else:
-        for n in habits:
-            print(n)
+    cursor.execute("SELECT * FROM habits")
+    habits = cursor.fetchall()
+    for habit in habits:
+        print("→", habit[1])
 
-add_habit() 
+def delete_habit():
+    user_input = input("Which id would you like to delete? ")
+    cursor.execute("DELETE FROM habits WHERE id = ?", (user_input,))
+    conn.commit()
+    print("✅ Habit deleted!")
+
 add_habit()
+add_habit()
+show_habits()
+delete_habit()
 show_habits()
