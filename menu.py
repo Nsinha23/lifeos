@@ -1,11 +1,15 @@
 import sqlite3
 from habits import add_habit, show_habits, delete_habit
+from ai import get_motivation
 
 conn = sqlite3.connect("lifeos.db")
 cursor = conn.cursor()
 
 
 print ("Welcome to LifeOS!")
+motivation = get_motivation()
+print(motivation)
+
 
 while True: 
     print("Please select 1: Add habit, 2: show habits, 3: Delete habit, 4: EXIST") 
